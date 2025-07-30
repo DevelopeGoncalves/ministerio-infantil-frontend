@@ -19,7 +19,7 @@ const pool = new Pool({
 });
 
 // Middleware para permitir JSON no corpo das requisições
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 // Middleware para permitir requisições de outras origens (CORS)
 // Permite que seu frontend (do GitHub Pages) se comunique com este backend.
 app.use(cors());
