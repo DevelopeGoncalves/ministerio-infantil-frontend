@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Ministério Infantil</title>
+    <!-- Inclui o Tailwind CSS via CDN para estilização rápida e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Estilo personalizado para a fonte Inter */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Fundo com gradiente suave e cores vibrantes */
+            background: linear-gradient(135deg, #ffe0b2, #e3f2fd, #c8e6c9, #f8bbd0); /* Laranja claro, azul claro, verde claro, rosa claro */
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Estilo para a mensagem de erro/sucesso */
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 2rem;
+            border-radius: 0.75rem; /* Mais arredondado */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra mais forte */
+            z-index: 1000;
+            display: none; /* Escondido por padrão */
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+            font-weight: 600;
+            text-align: center;
+        }
+        .message-box.show {
+            display: block;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .message-box.success {
+            background-color: #d1fae5; /* green-100 */
+            color: #065f46; /* green-800 */
+            border: 2px solid #34d399; /* green-400 */
+        }
+        .message-box.error {
+            background-color: #fee2e2; /* red-100 */
+            color: #991b1b; /* red-800 */
+            border: 2px solid #f87171; /* red-400 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-2xl transform transition-all duration-500 hover:scale-[1.01] border-4 border-blue-300">
+        <h1 class="text-5xl font-extrabold text-center text-purple-700 mb-8 leading-tight">
+            <span class="block text-red-500">🎉 Cadastro de Crianças 🎉</span>
+            <span class="block text-3xl text-green-600 mt-2">🌈 Ministério Infantil 🎈</span>
+        </h1>
+
+        <form id="registrationForm" class="space-y-6">
+            <!-- Campo Nome Completo da Criança -->
+            <div class="relative">
+                <label for="childName" class="block text-sm font-medium text-gray-700 mb-1">Nome Completo da Criança</label>
+                <input type="text" id="childName" name="childName" required
+                       class="mt-1 block w-full px-4 py-3 border-2 border-pink-300 rounded-xl shadow-md focus:ring-purple-500 focus:border-purple-500 sm:text-lg transition duration-300 ease-in-out transform focus:scale-[1.02] bg-pink-50 placeholder-pink-300"
+                       placeholder="Nome completo do pequeno(a) aventureiro(a)">
+            </div>
+
+            <!-- Campo Data de Nascimento e Idade -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="relative">
+                    <label for="dob" class="block text-sm font-medium text-gray-700 mb-1">Data de Nascimento</label>
+                    <input type="date" id="dob" name="dob" required
+                           class="mt-1 block w-full px-4 py-3 border-2 border-yellow-300 rounded-xl shadow-md focus:ring-purple-500 focus:border-purple-500 sm:text-lg transition duration-300 ease-in-out transform focus:scale-[1.02] bg-yellow-50">
+                </div>
+                <div class="relative">
+                    <label for="age" class="block text-sm font-medium text-gray-700 mb-1">Idade</label>
+                    <input type="text" id="age" name="age" readonly
+                           class="mt-1 block w-full px-4 py-3 border-2 border-gray-300 rounded-xl bg-gray-100 text-gray-600 cursor-not-allowed sm:text-lg">
+                </div>
+            </div>
+
+            <!-- Campo Sala -->
+            <div class="relative">
+                <label for="room" class="block text-sm font-medium text-gray-700 mb-1">Sala</label>
+                <input type="text" id="room" name="room" readonly
+                       class="mt-1 block w-full px-4 py-3 border-2 border-gray-300 rounded-xl bg-gray-100 text-gray-600 cursor-not-allowed sm:text-lg">
+            </div>
+
+            <!-- Campo Nome do Responsável -->
+            <div class="relative">
+                <label for="guardianName" class="block text-sm font-medium text-gray-700 mb-1">Nome do Responsável</label>
+                <input type="text" id="guardianName" name="guardianName" required
+                       class="mt-1 block w-full px-4 py-3 border-2 border-green-300 rounded-xl shadow-md focus:ring-purple-500 focus:border-purple-500 sm:text-lg transition duration-300 ease-in-out transform focus:scale-[1.02] bg-green-50 placeholder-green-300"
+                       placeholder="Nome do herói/heroína responsável">
+            </div>
+
+            <!-- Campo Número do Responsável -->
+            <div class="relative">
+                <label for="guardianPhone" class="block text-sm font-medium text-gray-700 mb-1">Número do Responsável</label>
+                <input type="tel" id="guardianPhone" name="guardianPhone" required
+                       class="mt-1 block w-full px-4 py-3 border-2 border-blue-300 rounded-xl shadow-md focus:ring-purple-500 focus:border-purple-500 sm:text-lg transition duration-300 ease-in-out transform focus:scale-[1.02] bg-blue-50 placeholder-blue-300"
+                       placeholder="Ex: (XX) XXXXX-XXXX">
+            </div>
+
+            <!-- Campo para Upload de Foto -->
+            <div class="relative">
+                <label for="childPhoto" class="block text-sm font-medium text-gray-700 mb-1">Foto da Criança (Opcional)</label>
+                <input type="file" id="childPhoto" name="childPhoto" accept="image/*"
+                       class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100">
+                <div class="mt-4 flex justify-center">
+                    <img id="photoPreview" class="hidden w-32 h-32 rounded-full object-cover border-4 border-purple-300 shadow-lg" src="" alt="Pré-visualização da Foto">
+                </div>
+            </div>
+
+            <!-- Botão de Cadastro -->
+            <button type="submit"
+                    class="w-full flex justify-center py-4 px-4 border border-transparent rounded-full shadow-xl text-xl font-extrabold text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-purple-400 transition duration-300 ease-in-out transform hover:scale-105 active:scale-95">
+                🌟 Cadastrar Criança Aventureira! 🚀
+            </button>
+        </form>
+
+        <!-- Área para exibir a lista de crianças cadastradas -->
+        <div class="mt-14 pt-8 border-t-4 border-purple-200">
+            <h2 class="text-4xl font-extrabold text-center text-pink-600 mb-8">
+                <span class="block">🎉 Nossos Pequenos Heróis Cadastrados! 🎉</span>
+            </h2>
+            <div id="registeredChildren" class="space-y-6">
+                <!-- As crianças cadastradas serão inseridas aqui via JavaScript -->
+                <p class="text-center text-gray-500 text-xl" id="noChildrenMessage">Nenhuma criança aventureira cadastrada ainda. Que tal começar?</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Box for alerts -->
+    <div id="messageBox" class="message-box"></div>
+
+    <script>
+        // Define a URL do seu backend.
+        // ATENÇÃO: Se você estiver vendo "Failed to fetch" ou erros de conexão, é provável que:
+        // 1. O seu servidor backend (server.js) NÃO esteja rodando. Inicie-o!
+        // 2. Esta URL ainda esteja como 'http://localhost:3000' mas o backend já foi DEPLOYADO no Railway.
+        //    Nesse caso, você DEVE SUBSTITUIR 'http://localhost:3000' pela URL pública do seu serviço de backend no Railway.
+        //    Exemplo: const BACKEND_URL = 'https://seu-nome-do-servico-xyz.up.railway.app';
+        const BACKEND_URL = 'https://seu-app.up.railway.app'; // <<--- VERIFIQUE E ATUALIZE ESTA LINHA!
+
+        // Seleciona os elementos do DOM
+        const dobInput = document.getElementById('dob');
+        const ageInput = document.getElementById('age');
+        const roomInput = document.getElementById('room');
+        const registrationForm = document.getElementById('registrationForm');
+        const registeredChildrenDiv = document.getElementById('registeredChildren');
+        const noChildrenMessage = document.getElementById('noChildrenMessage');
+        const messageBox = document.getElementById('messageBox');
+        const childPhotoInput = document.getElementById('childPhoto');
+        const photoPreview = document.getElementById('photoPreview');
+
+        // Variável para armazenar a foto em Base64 temporariamente
+        let currentChildPhotoBase64 = '';
+
+        // Função para exibir mensagens (substitui alert())
+        function showMessage(message, type = 'success') {
+            messageBox.textContent = message;
+            messageBox.className = `message-box show ${type}`;
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 3000); // Esconde a mensagem após 3 segundos
+        }
+
+        // Função para calcular a idade e atribuir a sala
+        function calculateAgeAndRoom() {
+            const dob = new Date(dobInput.value);
+            const today = new Date();
+
+            if (isNaN(dob.getTime())) { // Verifica se a data é válida
+                ageInput.value = '';
+                roomInput.value = '';
+                return;
+            }
+
+            let age = today.getFullYear() - dob.getFullYear();
+            const monthDifference = today.getMonth() - dob.getMonth();
+            const dayDifference = today.getDate() - dob.getDate();
+
+            // Ajusta a idade se o aniversário ainda não ocorreu este ano
+            if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+                age--;
+            }
+
+            ageInput.value = age; // Atualiza o campo de idade
+
+            // Atribui a sala com base na idade
+            let room = '';
+            if (age >= 0 && age <= 2) {
+                room = 'BERÇÁRIO (0-2 Anos)';
+            } else if (age >= 3 && age <= 4) {
+                room = 'ALFA (3-4 Anos)';
+            } else if (age >= 5 && age <= 6) {
+                room = 'BETA (5-6 Anos)';
+            } else if (age >= 7 && age <= 8) {
+                room = 'GAMA (7-8 Anos)';
+            } else if (age >= 9 && age <= 11) {
+                room = 'ÔMEGA (9-11 Anos)';
+            } else if (age > 11) {
+                room = 'Adolescente/Jovem (Acima de 11 Anos)'; // Para idades fora do escopo do ministério infantil principal
+            } else {
+                room = 'Idade Inválida'; // Caso a idade seja negativa ou não se encaixe
+            }
+            roomInput.value = room; // Atualiza o campo de sala
+        }
+
+        // Adiciona um listener para o evento 'change' no campo de data de nascimento
+        dobInput.addEventListener('change', calculateAgeAndRoom);
+
+        // Lida com a seleção de arquivo de imagem
+        childPhotoInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                // Limita o tamanho do arquivo para evitar problemas de desempenho/armazenamento
+                if (file.size > 5 * 1024 * 1024) { // 5MB
+                    showMessage('A imagem é muito grande! Por favor, selecione uma imagem de até 5MB.', 'error');
+                    childPhotoInput.value = ''; // Limpa o input do arquivo
+                    photoPreview.src = '';
+                    photoPreview.classList.add('hidden');
+                    currentChildPhotoBase64 = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    photoPreview.src = e.target.result;
+                    photoPreview.classList.remove('hidden');
+                    currentChildPhotoBase64 = e.target.result; // Armazena a imagem em Base64
+                };
+                reader.readAsDataURL(file); // Lê o arquivo como URL de dados (Base64)
+            } else {
+                photoPreview.src = '';
+                photoPreview.classList.add('hidden');
+                currentChildPhotoBase64 = '';
+            }
+        });
+
+        // Função para buscar e exibir as crianças cadastradas do backend
+        async function fetchAndRenderChildren() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/children`);
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status}`);
+                }
+                const children = await response.json();
+                
+                registeredChildrenDiv.innerHTML = ''; // Limpa a lista existente
+                if (children.length === 0) {
+                    noChildrenMessage.style.display = 'block'; // Mostra a mensagem se não houver crianças
+                } else {
+                    noChildrenMessage.style.display = 'none'; // Esconde a mensagem se houver crianças
+                    children.forEach((child) => { // Não precisamos mais do 'index' para exclusão, usamos o ID do DB
+                        const childCard = document.createElement('div');
+                        childCard.className = 'bg-gradient-to-br from-blue-100 to-purple-100 p-6 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center transition duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-xl border-2 border-blue-300';
+
+                        // Adiciona a imagem de perfil se existir
+                        const photoHtml = child.photo ?
+                            `<img src="${child.photo}" alt="Foto de ${child.childName}" class="w-20 h-20 rounded-full object-cover border-2 border-purple-400 mr-4 shadow-md flex-shrink-0">` :
+                            `<div class="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 text-3xl font-bold mr-4 flex-shrink-0">👶</div>`; // Placeholder se não houver foto
+
+                        childCard.innerHTML = `
+                            <div class="flex items-center mb-3 md:mb-0 w-full md:w-auto">
+                                ${photoHtml}
+                                <div>
+                                    <p class="text-2xl font-bold text-purple-800">${child.childName} ✨</p>
+                                    <p class="text-base text-gray-700 mt-1">Idade: <span class="font-semibold text-blue-700">${child.age} anos</span> | Sala: <span class="font-semibold text-green-700">${child.room}</span></p>
+                                    <p class="text-sm text-gray-600">Responsável: <span class="font-semibold text-pink-700">${child.guardianName}</span> (<span class="font-semibold text-orange-700">${child.guardianPhone}</span>)</p>
+                                </div>
+                            </div>
+                            <button data-id="${child.id}" class="delete-btn bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white px-5 py-2 rounded-full text-base font-semibold transition duration-200 ease-in-out transform hover:scale-105 active:scale-95 shadow-md mt-4 md:mt-0">
+                                Remover 🗑️
+                            </button>
+                        `;
+                        registeredChildrenDiv.appendChild(childCard);
+                    });
+
+                    // Adiciona listeners para os botões de exclusão
+                    document.querySelectorAll('.delete-btn').forEach(button => {
+                        button.addEventListener('click', (event) => {
+                            const idToDelete = parseInt(event.target.dataset.id);
+                            deleteChild(idToDelete);
+                        });
+                    });
+                }
+            } catch (error) {
+                console.error('Erro ao carregar crianças:', error);
+                showMessage('Erro ao carregar os dados das crianças. Verifique a conexão com o servidor.', 'error');
+            }
+        }
+
+        // Função para excluir uma criança via API
+        async function deleteChild(id) {
+            try {
+                const response = await fetch(`${BACKEND_URL}/children/${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `Erro HTTP: ${response.status}`);
+                }
+
+                showMessage('Criança removida com sucesso! 👋', 'success');
+                fetchAndRenderChildren(); // Recarrega a lista após a exclusão
+            } catch (error) {
+                console.error('Erro ao remover criança:', error);
+                showMessage(`Erro ao remover criança: ${error.message}`, 'error');
+            }
+        }
+
+        // Lida com o envio do formulário
+        registrationForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Previne o envio padrão do formulário
+
+            // Validação simples
+            const childName = document.getElementById('childName').value.trim();
+            const dob = document.getElementById('dob').value;
+            const age = document.getElementById('age').value;
+            const room = document.getElementById('room').value;
+            const guardianName = document.getElementById('guardianName').value.trim();
+            const guardianPhone = document.getElementById('guardianPhone').value.trim();
+
+            if (!childName || !dob || !age || !room || !guardianName || !guardianPhone) {
+                showMessage('Ops! Por favor, preencha todos os campos obrigatórios para cadastrar o(a) pequeno(a). 📝', 'error');
+                return;
+            }
+
+            // Cria um objeto com os dados da criança
+            const newChild = {
+                childName,
+                dob,
+                age: parseInt(age), // Converte a idade para número
+                room,
+                guardianName,
+                guardianPhone,
+                photo: currentChildPhotoBase64 // Adiciona a foto em Base64
+            };
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/children`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newChild),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `Erro HTTP: ${response.status}`);
+                }
+
+                showMessage('Criança cadastrada com sucesso! Bem-vindo(a)! 🎉', 'success');
+                registrationForm.reset(); // Limpa o formulário
+                ageInput.value = ''; // Limpa o campo de idade
+                roomInput.value = ''; // Limpa o campo de sala
+                photoPreview.src = '';
+                photoPreview.classList.add('hidden');
+                currentChildPhotoBase64 = ''; // Limpa a variável da foto
+                fetchAndRenderChildren(); // Recarrega a lista após o cadastro
+            } catch (error) {
+                console.error('Erro ao cadastrar criança:', error);
+                showMessage(`Erro ao cadastrar criança: ${error.message}`, 'error');
+            }
+        });
+
+        // Carrega os dados ao carregar a página
+        window.onload = fetchAndRenderChildren;
+    </script>
+</body>
+</html>
